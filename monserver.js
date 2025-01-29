@@ -3,6 +3,8 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
+const authRoutes = require('./controller/Authentification');
+
 // Initialisation d'Express
 const app = express();
 
@@ -18,12 +20,7 @@ const sslOptions = {
 // Middleware pour gérer les fichiers statiques (servir index.htm)
 app.use(express.static(path.join(__dirname, 'public_html')));
 
-// Route pour afficher les données de connexion
-app.get('/login', (req, res) => {
-    const { email, password } = req.query; // Récupère les paramètres du formulaire
-    console.log(`Email: ${email}, Password: ${password}`);
-    res.send('Les informations de connexion ont été reçues !');
-});
+app.use(authRoutes);
 
 // Création du serveur HTTPS
 https.createServer(sslOptions, app).listen(PORT, () => {
