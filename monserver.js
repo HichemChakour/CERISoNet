@@ -29,7 +29,7 @@ app.use(session({
 }));
 
 // Middleware pour gérer les fichiers statiques (servir index.htm)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/src')));
 
 const authRoutes = require('./controller/Authentification');
 app.use(authRoutes);
