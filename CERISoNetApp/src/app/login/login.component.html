@@ -1,0 +1,39 @@
+
+  <!-- formulaire -->
+  <div class="bg-violet-800 p-8 rounded-3xl shadow-2xl w-[32rem]">
+    <h1 class="text-2xl font-bold bg-black text-center text-white mb-6 -mt-8 -mx-8 rounded-t-3xl p-4 shadow-xl ">Connexion 💻</h1>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-10 ">
+        <label for="email" class="block text-sm font-medium text-gray-300 shadow-xl">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 shadow-xl"
+        />
+        <span *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-red-500 text-sm">
+          Veuillez entrer un email valide.
+        </span>
+      </div>
+      <div class="mb-12 ">
+        <label for="password" class="block text-sm font-medium text-gray-300 shadow-xl">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="w-full mt-1 px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 shadow-xl"
+        />
+        <span *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-500 text-sm">
+          Le mot de passe est requis.
+        </span>
+      </div>
+      <button
+        type="submit"
+        [disabled]="loginForm.invalid"
+        class="w-full bg-purple-600 text-white py-2 px-4 shadow-xl rounded-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-700 "
+      >
+        Se connecter
+      </button>
+    </form>
+  </div>

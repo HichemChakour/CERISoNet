@@ -3,38 +3,58 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const session = require('express-session');
-const pg = require('pg');
-const pgSession = require('connect-pg-simple')(session);
+const MongoDBStore = require('connect-mongodb-session')(session);
+const cors = require('./middlewares/cors');
+const { connectDB } = require('./config/db');
+const authRoutes = require('./controller/Authentification');
 require('dotenv').config();
-
-const pool = new pg.Pool({
-    user: process.env.DB_USER,
-    host: 'localhost',
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-    port: process.env.DB_PORT
-});
 
 // Initialisation d'Express
 const app = express();
 app.use(express.json());
 
 // Configuration de la session
+const store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: 'MySession3205',
+    touchAfter: 24 * 3600
+});
+
+store.on('error', function(error) {
+    console.error('Session store error:', error);
+});
+
 app.use(session({
-    store: new pgSession({ pool }),
-    secret: 'secret_key',
+    secret: 'hichm',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true, httpOnly: true, maxAge: 1000 * 60 * 60 } // 1h
+    store: store,
+    cookie: {
+        secure: false, 
+        httpOnly: true,
+        sameSite: 'lax',
+        maxAge: 24 * 3600 * 1000
+    }
 }));
 
-// Middleware pour gérer les fichiers statiques (servir index.htm)
-app.use(express.static(path.join(__dirname, 'public/src')));
+// Middleware pour gérer les fichiers statiques
+app.use(express.static(path.join(__dirname, '/CERISoNetApp/dist/ceriso-net-app/browser')));
 
-const authRoutes = require('./controller/Authentification');
+// Configuration CORS
+app.use(cors);
+
+// Routes
 app.use(authRoutes);
 
-// Chemin vers les certificats SSL
+// Catch-all route
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/CERISoNetApp/dist/ceriso-net-app/browser/index.html'));
+});
+
+// Connect to DB
+connectDB();
+
+// Configuration SSL
 const sslOptions = {
     key: fs.readFileSync('server.key'),
     cert: fs.readFileSync('server.cert')

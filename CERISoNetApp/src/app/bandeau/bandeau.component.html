@@ -1,0 +1,4 @@
+<div *ngIf="isVisible" [ngClass]="{'bg-green-500': isSuccess, 'bg-red-500': !isSuccess}" class="fixed top-0 right-0 m-3 z-1 shadow-2xl text-white rounded-lg">
+    <p class="m-4">{{ message }}</p>
+    <div class="progress-bar m-2 h-1  rounded-2xl" [ngClass]="{'bg-green-700': isSuccess, 'bg-red-700': !isSuccess}"></div>
+  </div>
