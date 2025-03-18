@@ -10,7 +10,8 @@ export const routes: Routes = [
       { path: 'connexion', component: LoginComponent },
       //tout le reste
       { path: '', component: AppShellComponent, children: [
-        { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
+        { path: 'home', loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent) },
+        { path: 'fyp', loadComponent: () => import('./pages/for-you-page/for-you-page.component').then(m => m.ForYouPageComponent) },
         { path: '', redirectTo: 'home', pathMatch: 'full' }
       ]}
   ]}

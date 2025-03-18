@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
-import { BandeauComponent } from "./bandeau/bandeau.component";
+import { BandeauComponent } from "./components/bandeau/bandeau.component";
 
 @Component({
   selector: 'app-root',
@@ -23,8 +23,6 @@ export class AppComponent implements OnInit {
     this.authService.getSession(sessionCookie).subscribe({
       next: session => {
         console.log('Utilisateur connecté :', session.username);
-        this.authService.setUser(session);
-        this.router.navigate(['/home']); 
       },
       error: () => {
         console.warn('Session invalide, redirection vers /connexion');

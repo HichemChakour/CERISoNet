@@ -7,6 +7,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('./middlewares/cors');
 const { connectDB } = require('./config/db');
 const authRoutes = require('./controller/Authentification');
+const messageRoutes = require('./controller/Messages');
 require('dotenv').config();
 
 // Initialisation d'Express
@@ -45,6 +46,7 @@ app.use(cors);
 
 // Routes
 app.use(authRoutes);
+app.use(messageRoutes);
 
 // Catch-all route
 app.get('*', (req, res) => {

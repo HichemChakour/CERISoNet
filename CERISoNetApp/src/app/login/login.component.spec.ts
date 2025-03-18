@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { BandeauComponent } from "../bandeau/bandeau.component";
+import { BandeauComponent } from "../components/bandeau/bandeau.component";
 
 @Component({
   selector: 'app-login',

@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { AppComponent } from '../app.component';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-navbar',
@@ -29,5 +29,9 @@ export class NavbarComponent {
         this.app.showNotification(errorMessage, false);
       }
     );
+  }
+
+  navigateToFyp() {
+    this.router.navigate(['/fyp']);
   }
 }

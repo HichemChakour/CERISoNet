@@ -1,0 +1,53 @@
+<div >
+    <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 m-4">Messages pour vous</h1>
+    <hr class="w-full border-t-2 "> 
+    <div *ngIf="paginatedMessages.length > 0; else noMessages">
+      <app-poste *ngFor="let message of paginatedMessages" [message]="message"></app-poste>
+        <!-- Paginator -->
+        <div class="flex flex-col items-center m-6">
+        <span class="text-sm text-gray-700 dark:text-gray-400">
+            Messages
+            <span class="font-semibold text-gray-900 dark:text-white">
+            {{ (currentPage - 1) * pageSize + 1 }}
+            </span> 
+            à 
+            <span class="font-semibold text-gray-900 dark:text-white">
+            {{ Math.min(currentPage * pageSize, messages.length) }}
+            </span> 
+            sur les
+            <span class="font-semibold text-gray-900 dark:text-white">
+            {{ messages.length }}
+            </span> 
+            messages
+        </span>
+    
+        <div class="flex m-1">
+            <!-- Previous Button -->
+            <button 
+            (click)="changePage(currentPage - 1)" 
+            [disabled]="currentPage === 1"
+            class="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+            </svg>
+            Previous
+            </button>
+    
+            <!-- Next Button -->
+            <button 
+            (click)="changePage(currentPage + 1)" 
+            [disabled]="currentPage * pageSize >= messages.length"
+            class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            Next
+            <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+            </svg>
+            </button>
+        </div>
+        </div>
+    </div>
+  
+    <ng-template #noMessages>
+      <p>Aucun message à afficher.</p>
+    </ng-template>
+  </div>
