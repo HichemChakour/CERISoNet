@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './main-pages/login/login.component';
 import { AppComponent } from './app.component';
-import { AppShellComponent } from './app-shell/app-shell.component';
+import { AppShellComponent } from './main-pages/app-shell/app-shell.component';
 
 //logique de route 
 export const routes: Routes = [

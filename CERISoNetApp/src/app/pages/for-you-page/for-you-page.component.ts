@@ -13,7 +13,7 @@ import { PosteComponent } from '../../components/poste/poste.component';
 export class ForYouPageComponent implements OnInit {
   messages: any[] = []; // Tous les messages
   currentPage: number = 1; // Page actuelle
-  pageSize: number = 5; // Nombre de messages par page
+  pageSize: number = 10; // Nombre de messages par page
   Math = Math; // Expose l'objet Math pour le template
 
   constructor(private messageService: MessageService) {}
@@ -32,6 +32,10 @@ export class ForYouPageComponent implements OnInit {
   // Méthode pour changer de page
   changePage(page: number): void {
     this.currentPage = page;
+    const contentElement = document.querySelector('.content');
+    if (contentElement) {
+      contentElement.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   // Méthode pour récupérer les messages de la page actuelle

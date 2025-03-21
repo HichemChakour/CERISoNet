@@ -13,9 +13,12 @@ import { AppComponent } from '../../app.component';
 
 export class NavbarComponent {
   name: string;
+  avatar: string;
+
 
   constructor(private authService: AuthService, private router: Router, private app: AppComponent) {
       this.name = document.cookie.split('; ').find(row => row.startsWith('name='))?.split('=')[1] || '';
+      this.avatar = document.cookie.split('; ').find(row => row.startsWith('avatar='))?.split('=')[1] || '';
   }
   //deconnxion 
   logout() {

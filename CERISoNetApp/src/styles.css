@@ -2,3 +2,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Empêche le débordement horizontal */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Désactive le défilement horizontal */
+    width: 100%;
+  }

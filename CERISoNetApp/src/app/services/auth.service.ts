@@ -13,7 +13,13 @@ export class AuthService {
 
   //envoie de la requette login
   login(credentials: any) {
-    return this.http.post<{ message: string , pseudo: string, session : string, lastConnexion :any }>('https://pedago.univ-avignon.fr:3205/login', credentials, { withCredentials: true });
+    return this.http.post<{ 
+      message: string,
+      userId: number,
+      pseudo: string,
+      session : string,
+      lastConnexion :any,
+      avatar :String }>('https://pedago.univ-avignon.fr:3205/login', credentials, { withCredentials: true });
   }
 
   //voir il est connecté

@@ -20,4 +20,16 @@ export class MessageService {
       })
     );
   }
+
+  toggleLike(messageId: number, userId: number): Observable<any> {
+    const url = `${this.apiUrl}/like`; // URL de l'API pour liker/unliker
+    const body = { messageId, userId }; // Corps de la requête
+  
+    return this.http.post<any>(url, body).pipe(
+      catchError((error) => {
+        console.error('Erreur lors de la mise à jour du like :', error);
+        return throwError(() => new Error('Impossible de mettre à jour le like.'));
+      })
+    );
+  }
 }

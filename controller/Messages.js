@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const messageService = require('../services/messageService');
+const { getMessages, toggleLike } = require('../services/messageService');
 
-router.get('/messages', async (req, res) => {
-    try {
-        const messages = await messageService.getMessagesWithUsersAndComments();
-        res.status(200).json(messages); 
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+// Route pour récupérer les messages
+router.get('/messages', getMessages);
+
+// Route pour liker ou unliker un message
+router.post('/messages/like', toggleLike);
 
 module.exports = router;

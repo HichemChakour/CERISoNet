@@ -1,0 +1,10 @@
+.app-shell {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .content {
+    flex: 1; /* Prend tout l'espace restant */
+    overflow: auto; /* Permet le défilement si le contenu dépasse */
+    background-color: #000; /* Couleur de fond pour le contenu */
+  }

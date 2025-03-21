@@ -7,8 +7,8 @@ const messageSchema = new mongoose.Schema({
     hour: String,
     createdBy: Number,
     body: String,
-    likes: Number,
-    likedBy: [Number],
+    likes: { type: Number, default: 0 },
+    likedBy: [Number], 
     hashtags: [String],
     comments: [
         {

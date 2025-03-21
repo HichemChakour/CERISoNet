@@ -29,7 +29,10 @@ const login = async (req, res) => {
         req.session.username = utilisateur.pseudo;
         req.session.email = utilisateur.mail;
 
-        res.json({ message: "Connexion réussie", pseudo: req.session.username, session: req.session.id,lastConnexion: lastConnexion });
+         // Mettre à jour le statut de connexion dans PostgreSQL
+         await db.none('UPDATE fredouil.compte SET statut_connexion = 1 WHERE mail = $1', [email]);
+
+        res.json({ message: "Connexion réussie", userId:utilisateur.id, pseudo: req.session.username, session: req.session.id, lastConnexion: lastConnexion, avatar: utilisateur.avatar });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Erreur serveur" });
@@ -53,6 +56,7 @@ const getSession = async (req, res) => {
 
         // Vérifier si la session a expiré
         if (new Date() > session.expires) {
+            await db.none('UPDATE fredouil.compte SET statut_connexion = 0 WHERE mail = $1', [session.session.email]);
             return res.status(401).json({ message: "Session expirée" });
         }
 

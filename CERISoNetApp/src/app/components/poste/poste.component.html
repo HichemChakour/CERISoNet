@@ -1,18 +1,45 @@
-<div class="shadow-2xl p-4 my-4 rounded-lg bg-purple-700">
-    <div class="bg-gray-600 rounded-t-4xl">
-        <div class="flex flex-row items-center bg-gray-950 rounded-full ">
-            <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 m-3" [src]="message.createdByUser?.avatar" alt="Bordered avatar">
-            <h3 class="text-white">{{ message.createdByUser?.pseudo }}</h3>
-        </div>
-        <p>{{ message.body }}</p>
-    </div>  
-    <small>{{ message.date }} - {{ message.hour }}</small>
-    <div *ngIf="message.comments.length > 0">
-      <h4>Commentaires :</h4>
-      <ul>
-        <li *ngFor="let comment of message.comments">
-          <strong>{{ comment.commentedByUser?.pseudo }}:</strong> {{ comment.text }}
-        </li>
-      </ul>
+<div class="poste shadow-2xl p-4 my-4 rounded-3xl custom-hover">
+  <div class="bg-gray-950 rounded-2xl p-3">
+    <div class="flex flex-row items-center rounded-full max-w-48" style="background-color: #35004e; box-shadow: inset 4px 4px 5px 0px rgba(165, 30, 202, 0.973);">
+      <div class="relative">
+        <img class="w-10 h-10 p-1 rounded-full ring-2 bg-black ring-gray-300 dark:ring-gray-500 m-3" [src]="message.createdByUser?.avatar" alt="Bordered avatar">
+        <span *ngIf="message.createdByUser?.statut_connexion" class="bottom-3 left-10 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+      </div>
+      <h3 class="text-white">{{ message.createdByUser?.pseudo }}</h3>
+    <style>
+      .custom-hover:hover {
+        box-shadow: inset 0 0 8px 0px rgb(78, 8, 78);
+      }
+    </style>
     </div>
+    <p class="text-white mt-3">{{ message.body }}</p>
+      <img  *ngIf="message.images?.url" class="max-w-48 md:max-w-md mt-2 rounded-xl" [src]="message.images?.url" alt="Image">
   </div>
+    <div>
+      <div *ngIf="message.hashtags?.length" class="mt-3">
+        <span *ngFor="let hashtag of message.hashtags" class="text-purple-300 text-sm mr-2">{{ hashtag }}</span>
+      </div>
+    </div>
+  <div class="flex flex-row justify-between mt-3 w-full">
+      <small class="text-purple-100 mt-3">{{ message.date }} - {{ message.hour }}</small>
+      <div>
+        <button class="bg-gray-900 text-xs text-white font-medium me-2 px-2.5 py-0.5 rounded-full border hover:bg-gray-700 ml-auto" ><i class="fa-regular fa-comment"></i> {{ message.comments.length }}</button>
+        <button data-popover-target="popover-default" class="bg-gray-900 text-xs text-white font-medium me-2 px-2.5 py-0.5 rounded-full border hover:bg-gray-700 ml-auto" (click)="toggleLike()"><i [ngClass]="{'fa-solid': hasLiked()}"class="fa-regular fa-heart"></i> {{ message.likes }}</button>
+        <div *ngIf="message.likedByUsers.length > 0" data-popover id="popover-default" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-900">
+          <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-950">
+              <h3 class="font-semibold text-gray-900 dark:text-white">Liké par</h3>
+          </div>
+          <div class="px-3 py-2">
+            <div class="flex -space-x-4 rtl:space-x-reverse">
+                <img *ngIf="message.likedByUsers.length >= 1" class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 bg-gray-700" [src]="message.likedByUsers[0]?.avatar" alt="">
+                <img *ngIf="message.likedByUsers.length >= 2" class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 bg-gray-700" [src]="message.likedByUsers[1]?.avatar" alt="">
+                <img *ngIf="message.likedByUsers.length >= 3" class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 bg-gray-700" [src]="message.likedByUsers[2]?.avatar" alt="">
+                <img *ngIf="message.likedByUsers.length == 4" class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 bg-gray-700" [src]="message.likedByUsers[3]?.avatar" alt="">
+              <a *ngIf="message.likedByUsers.length > 4" class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800">+{{message.likes - 3}}</a>
+          </div>
+          </div>
+      </div>
+      </div>
+    </div>
+</div>
+>
