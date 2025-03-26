@@ -3,8 +3,12 @@
         <img class="w-48 h-48 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" [src]="cookies.avatar" alt="Bordered avatar">
         <div class="gap-2">
             <div>
-                <div class="font-bold text-white text-4xl">{{cookies.name}}</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400 text-xl">{{cookies.lastLoginDate}}</div>
+                <div class="font-bold text-white text-4xl mb-3">{{cookies.name}}</div>
+                <div class="flex flex-row">
+                    <div class="text-gray-500 dark:text-gray-400 text-2xl mr-3">{{cookies.lastName}}</div>
+                    <div class="text-gray-500 dark:text-gray-400 text-2xl">{{cookies.firstName}}</div>
+                </div>
+                <div class="text-gray-500 dark:text-gray-400 text-xl">{{cookies.lastLoginDate}}</div>
             </div>
         </div>
     </div>

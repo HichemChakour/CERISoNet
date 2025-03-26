@@ -48,6 +48,8 @@ export class LoginComponent implements OnInit {
             document.cookie = `lastLoginDate=${response.lastConnexion ?? null}; SameSite=Strict`;
             document.cookie = `session=${response.session}; SameSite=Strict`; 
             document.cookie = `name=${response.pseudo}; SameSite=Strict`;
+            document.cookie = `firstName=${response.firstName}; SameSite=Strict`;
+            document.cookie = `lastName=${response.lastName}; SameSite=Strict`;
             document.cookie = `avatar=${response.avatar}; SameSite=Strict`;
             this.router.navigate(['']); 
         }

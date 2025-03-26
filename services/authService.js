@@ -36,8 +36,8 @@ const login = async (req, res) => {
          // Mettre à jour le statut de connexion dans PostgreSQL
          await db.none('UPDATE fredouil.compte SET statut_connexion = 1 WHERE mail = $1', [email]);
 
-        broadcast({ type: 'success', message: 'Un utilisateur s\'est connecté.' });
-        res.json({ message: "Connexion réussie", userId:utilisateur.id, pseudo: req.session.username, session: req.session.id, lastConnexion: lastConnexion, avatar: utilisateur.avatar });
+        broadcast({ type: 'success', message: 'Connection réussit '+ utilisateur.pseudo });
+        res.json({ message: "Connexion réussie", userId:utilisateur.id, pseudo: req.session.username,firstName:utilisateur.prenom, lastName:utilisateur.nom , session: req.session.id, lastConnexion: lastConnexion, avatar: utilisateur.avatar });
     } catch (err) {
         console.error(err);
         broadcast({ type: 'error', message: 'Erreur serveur' });

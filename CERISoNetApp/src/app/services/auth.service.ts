@@ -17,6 +17,8 @@ export class AuthService {
       message: string,
       userId: number,
       pseudo: string,
+      firstName: string,
+      lastName: string,
       session : string,
       lastConnexion :any,
       avatar :String }>('https://pedago.univ-avignon.fr:3205/login', credentials, { withCredentials: true });
