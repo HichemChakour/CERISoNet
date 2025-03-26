@@ -22,16 +22,11 @@ export class NavbarComponent {
   }
   //deconnxion 
   logout() {
-    this.authService.logout().subscribe(
-      response => {
-        this.app.showNotification(response.message, true);
-        this.router.navigate(['/connexion']); 
-      },
-      error => {
-        const errorMessage = error.error?.message || 'Identifiants invalides';
-        this.app.showNotification(errorMessage, false);
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/connexion']);
       }
-    );
+    });
   }
 
   navigateToProfile() {

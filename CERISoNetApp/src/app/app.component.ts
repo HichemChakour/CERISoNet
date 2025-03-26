@@ -13,6 +13,8 @@ export class AppComponent implements OnInit {
   message: string = '';
   isSuccess: boolean = false;
   messageId: number = 0;
+  private socket: WebSocket | null = null;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   //verification si connecter pour redirection
@@ -29,6 +31,32 @@ export class AppComponent implements OnInit {
         this.router.navigate(['/connexion']); 
       }
     });
+
+    this.initWebSocket();
+  }
+
+  private initWebSocket(): void {
+    this.socket = new WebSocket('https://pedago.univ-avignon.fr:3205'); 
+
+    // Écouter les messages du serveur
+    this.socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === 'success') {
+        this.showNotification(data.message, true); // Afficher une notification de succès
+      } else if (data.type === 'error') {
+        this.showNotification(data.message, false); // Afficher une notification d'erreur
+      }
+    };
+
+    // Gérer la fermeture de la connexion
+    this.socket.onclose = () => {
+      console.warn('Connexion WebSocket fermée');
+    };
+
+    // Gérer les erreurs de connexion
+    this.socket.onerror = (error) => {
+      console.error('Erreur WebSocket:', error);
+    };
   }
 
   //afficher le bandeau

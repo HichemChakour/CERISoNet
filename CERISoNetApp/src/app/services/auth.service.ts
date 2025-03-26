@@ -45,8 +45,8 @@ export class AuthService {
   }
 
   //deconction
-  logout( ) {
+  logout(): Observable<void> {
     const sessionCookie = document.cookie.split('; ').find(row => row.startsWith('session='))?.split('=')[1];
-    return this.http.post<{ message: string }>('https://pedago.univ-avignon.fr:3205/logout', { session : sessionCookie }, { withCredentials: true });
+    return this.http.post<void>('https://pedago.univ-avignon.fr:3205/logout', { session : sessionCookie }, { withCredentials: true });
   }
 }

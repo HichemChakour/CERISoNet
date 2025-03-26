@@ -1,26 +1,30 @@
 const { db } = require('../config/db');
 const Session = require('../models/sessionModel');
 const { hashPassword } = require('../utils/crypto');
+const { broadcast } = require('../utils/websocket');
 
 // Route de connexion
 const login = async (req, res) => {
     const { email, password } = req.body;
     // Vérifier si l'email et le mot de passe sont renseignés
     if (!email || !password) {
-        return res.status(400).json({ message: "Email et mot de passe requis" });
+        broadcast({ type: 'error', message: 'Email et mot de passe requis' });
+        return res.status(400);
     }
 
     try {
         // Vérifier si l'utilisateur existe
         const utilisateur = await db.oneOrNone('SELECT * FROM fredouil.compte WHERE mail = $1', [email]);
         if (!utilisateur) {
-            return res.status(401).json({ message: "Utilisateur introuvable" });
+            broadcast({ type: 'error', message: 'Utilisateur introuvable' });
+            return res.status(401);
         }
 
         // Vérifier si le mot de passe est correct
         const hashedPassword = hashPassword(password);
         if (hashedPassword !== utilisateur.motpasse) {
-            return res.status(401).json({ message: "Mot de passe incorrect" });
+            broadcast({ type: 'error', message: 'Mot de passe incorrect' });
+            return res.status(401);
         }
         const session = await Session.findOne({ "session.email": utilisateur.mail });
         const lastConnexion =  "Dernière connexion :" + session?.session.lastConnexion.toLocaleString('fr-FR', { timeZone: 'UTC' }) ?? "Première connexion";
@@ -32,9 +36,11 @@ const login = async (req, res) => {
          // Mettre à jour le statut de connexion dans PostgreSQL
          await db.none('UPDATE fredouil.compte SET statut_connexion = 1 WHERE mail = $1', [email]);
 
+        broadcast({ type: 'success', message: 'Un utilisateur s\'est connecté.' });
         res.json({ message: "Connexion réussie", userId:utilisateur.id, pseudo: req.session.username, session: req.session.id, lastConnexion: lastConnexion, avatar: utilisateur.avatar });
     } catch (err) {
         console.error(err);
+        broadcast({ type: 'error', message: 'Erreur serveur' });
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
@@ -75,7 +81,8 @@ const getSession = async (req, res) => {
 // Déconnexion
 const logout = async (req, res) => {
     if (!req.body.session) {
-        return res.status(401).json({ message: "Utilisateur non connecté" });
+        broadcast({ type: 'error', message: 'Utilisateur non connecté' });
+        return res.status(401);
     }
 
     try {
@@ -84,7 +91,8 @@ const logout = async (req, res) => {
         const session = await Session.findById(sessionId);
 
         if (!session) {
-            return res.status(401).json({ message: "Session introuvable" });
+            broadcast({ type: 'error', message: 'Session introuvable' });
+            return res.status(401);
         }
 
         // Mettre à jour le statut de connexion dans PostgreSQL
@@ -95,11 +103,13 @@ const logout = async (req, res) => {
         await session.save();
 
 
-        return res.json({ message: "Déconnexion réussie" });
+        broadcast({ type: 'success', message: "Déconnexion réussie" });
+        return res.status(200).json({ message: "Déconnexion réussie" });
 
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: "Erreur serveur lors de la déconnexion" });
+        broadcast({ type: 'error', message: 'Erreur serveur lors de la déconnexion' });
+        return res.status(500);
     }
 };
 

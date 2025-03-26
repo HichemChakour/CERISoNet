@@ -11,11 +11,11 @@ case.
 
 Initial chunk files | Names                  |  Raw size
 polyfills.js        | polyfills              |  88.09 kB | 
-main.js             | main                   |  26.20 kB | 
+main.js             | main                   |  25.99 kB | 
 styles.css          | styles                 |  23.70 kB | 
 chunk-SHAOKUVO.js   | -                      | 938 bytes | 
 
-                    | Initial total          | 138.90 kB
+                    | Initial total          | 138.69 kB
 
 Lazy chunk files    | Names                  |  Raw size
 chunk-SCFKFUKF.js   | -                      |  24.84 kB | 
@@ -24,7 +24,7 @@ chunk-4SMKRPW4.js   | for-you-page-component |   9.31 kB |
 chunk-TZVCJ6WV.js   | poster-component       |   8.52 kB | 
 chunk-BVRGUKQU.js   | -                      |   2.13 kB | 
 
-Application bundle generation complete. [4.193 seconds]
+Application bundle generation complete. [3.550 seconds]
 
 Watch mode enabled. Watching for file changes...
   ➜  Network: http://pedago.univ-avignon.fr:3206/

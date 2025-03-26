@@ -9,6 +9,7 @@ const { connectDB } = require('./config/db');
 const authRoutes = require('./controller/Authentification');
 const messageRoutes = require('./controller/Messages');
 const userMessagesRouter = require('./controller/UserMessages');
+const { initWebSocket } = require('./utils/websocket');
 require('dotenv').config();
 
 // Initialisation d'Express
@@ -45,6 +46,16 @@ app.use(express.static(path.join(__dirname, '/CERISoNetApp/dist/ceriso-net-app/b
 // Configuration CORS
 app.use(cors);
 
+
+// Configuration SSL
+const sslOptions = {
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+};
+
+const server = https.createServer(sslOptions, app);
+initWebSocket(server);
+
 // Routes
 app.use(authRoutes);
 app.use(messageRoutes);
@@ -58,13 +69,8 @@ app.get('*', (req, res) => {
 // Connect to DB
 connectDB();
 
-// Configuration SSL
-const sslOptions = {
-    key: fs.readFileSync('server.key'),
-    cert: fs.readFileSync('server.cert')
-};
 
 // Création du serveur HTTPS
-https.createServer(sslOptions, app).listen(3205, () => {
-    console.log(`Serveur HTTPS lancé sur le port 3205`);
+server.listen(3205, () => {
+    console.log(`Serveur HTTPS et WebSocket lancé sur le port 3205`);
 });

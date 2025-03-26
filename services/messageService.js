@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Message = require('../models/messageModel');
-const { db } = require('../config/db'); // PostgreSQL pour les utilisateurs
+const { db } = require('../config/db');
+const { broadcast } = require('../utils/websocket');
 
 const getMessages = async (req, res) => {
     try {
@@ -54,6 +55,7 @@ const getMessages = async (req, res) => {
 
         res.status(200).json(enrichedMessages);
     } catch (error) {
+        broadcast('error', 'Erreur lors de la récupération des messages : ' + error.message);
         res.status(500).json({ error: 'Erreur lors de la récupération des messages : ' + error.message });
     }
 };
@@ -98,15 +100,28 @@ const toggleLike = async (req, res) => {
 
 const addComment = async (req, res) => {
     const { messageId, text, commentedBy } = req.body;
-    console.log(req.body);
+
+    if (!messageId) {
+        broadcast({ type: 'error', message: 'Message introuvable' });
+        return res.status(400);
+    }
+
+    if (!text) {
+        broadcast({ type: 'error', message: 'Le commentaire doit contenir du texte' });
+        return res.status(400);
+    }
+
+    if (!commentedBy) {
+        broadcast({ type: 'error', message: 'Utilisateur introuvable' });
+        return res.status(400);
+    }
 
     try {
-        // Récupérer le message
         const message = await Message.findById(messageId);
-        console.log(messageId);
 
         if (!message) {
-            return res.status(404).json({ error: 'Message non trouvé' });
+            broadcast('error', 'Message non trouvé');
+            return res.status(404);
         }
 
         // Ajouter le commentaire
@@ -122,8 +137,9 @@ const addComment = async (req, res) => {
 
         // Sauvegarder le message
         await message.save();
-
-        res.status(200).json({ message: 'Commentaire ajouté avec succès', comment: newComment });
+        
+        broadcast({ type: 'success', message: 'Commentaire ajouté' });
+        res.status(200).json({ comment: newComment });
     } catch (error) {
         res.status(500).json({ error: 'Erreur lors de l\'ajout du commentaire : ' + error.message });
     }
@@ -131,6 +147,16 @@ const addComment = async (req, res) => {
 
 const createMessage = async (req, res) => {
     const { userId, body, imageUrl, imageTitle, hashtags } = req.body;
+
+    if(!userId) {
+        broadcast({ type: 'error', message: 'Utilisateur non trouvé' });
+        return res.status(400);
+    }
+
+    if(!body) {
+        broadcast({ type: 'error', message: 'Le message doit contenir du texte' });
+        return res.status(400);
+    }
 
     try {
         const newMessage = new Message({
@@ -148,7 +174,8 @@ const createMessage = async (req, res) => {
 
         await newMessage.save();
 
-        res.status(201).json({ message: 'Message créé avec succès', newMessage });
+        broadcast({ type: 'success', message: 'Message créé' });
+        res.status(201).json({ newMessage });
     } catch (error) {
         res.status(500).json({ error: 'Erreur lors de la création du message : ' + error.message });
     }
