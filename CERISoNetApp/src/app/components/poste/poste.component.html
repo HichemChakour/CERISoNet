@@ -23,8 +23,8 @@
   <div class="flex flex-row justify-between mt-3 w-full">
       <small class="text-purple-100 mt-3">{{ message.date }} - {{ message.hour }}</small>
       <div>
-        <button class="bg-gray-900 text-xs text-white font-medium me-2 px-2.5 py-0.5 rounded-full border hover:bg-gray-700 ml-auto" ><i class="fa-regular fa-comment"></i> {{ message.comments.length }}</button>
-        <button data-popover-target="popover-default" class="bg-gray-900 text-xs text-white font-medium me-2 px-2.5 py-0.5 rounded-full border hover:bg-gray-700 ml-auto" (click)="toggleLike()"><i [ngClass]="{'fa-solid': hasLiked()}"class="fa-regular fa-heart"></i> {{ message.likes }}</button>
+        <button class="bg-gray-900 text-sm text-white h-10 w-20 font-medium me-2 px-2.5 py-0.5 rounded-full border hover:bg-gray-700 ml-auto" (click)="openModal()"><i class="fa-regular fa-comment"></i> {{ message.comments.length }}</button>
+        <button data-popover-target="popover-default" class="bg-gray-900 text-sm text-white h-10 w-20 font-medium me-2 px-2.5 py-0.5 rounded-full border hover:bg-gray-700 ml-auto" (click)="toggleLike()"><i [ngClass]="{'fa-solid': hasLiked()}" class="fa-regular fa-heart"></i> {{ message.likes }}</button>
         <div *ngIf="message.likedByUsers.length > 0" data-popover id="popover-default" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-900">
           <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-950">
               <h3 class="font-semibold text-gray-900 dark:text-white">Liké par</h3>
@@ -42,4 +42,3 @@
       </div>
     </div>
 </div>
->

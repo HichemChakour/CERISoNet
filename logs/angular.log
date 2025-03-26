@@ -1,0 +1,30 @@
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+    
+- Building...
+
+Initial chunk files | Names                  |  Raw size
+polyfills.js        | polyfills              |  88.09 kB | 
+main.js             | main                   |  26.20 kB | 
+styles.css          | styles                 |  23.70 kB | 
+chunk-SHAOKUVO.js   | -                      | 938 bytes | 
+
+                    | Initial total          | 138.90 kB
+
+Lazy chunk files    | Names                  |  Raw size
+chunk-SCFKFUKF.js   | -                      |  24.84 kB | 
+chunk-GHQZSGAB.js   | home-component         |  13.19 kB | 
+chunk-4SMKRPW4.js   | for-you-page-component |   9.31 kB | 
+chunk-TZVCJ6WV.js   | poster-component       |   8.52 kB | 
+chunk-BVRGUKQU.js   | -                      |   2.13 kB | 
+
+Application bundle generation complete. [4.193 seconds]
+
+Watch mode enabled. Watching for file changes...
+  ➜  Network: http://pedago.univ-avignon.fr:3206/

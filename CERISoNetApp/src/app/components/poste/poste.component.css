@@ -1,6 +1,5 @@
 .poste {
   box-shadow: inset 0 5px 8px 0px rgb(78, 8, 78) !important;
-  cursor: pointer;
 }
 
 .poste:hover {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // Création du schéma de message
 const messageSchema = new mongoose.Schema({
-    _id: Number,
+    _id: Number | String,
     date: String,
     hour: String,
     createdBy: Number,

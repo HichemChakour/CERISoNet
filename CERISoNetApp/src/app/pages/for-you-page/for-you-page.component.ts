@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MessageService } from '../../services/message.service';
 import { PosteComponent } from '../../components/poste/poste.component';
+import { DetailedPosteComponent } from '../../components/detailed-poste/detailed-poste.component';
 
 @Component({
   selector: 'app-for-you-page',
   standalone: true,
-  imports: [CommonModule, PosteComponent],
+  imports: [CommonModule, PosteComponent, DetailedPosteComponent],
   templateUrl: './for-you-page.component.html',
   styleUrl: './for-you-page.component.css'
 })
@@ -15,6 +16,7 @@ export class ForYouPageComponent implements OnInit {
   currentPage: number = 1; // Page actuelle
   pageSize: number = 10; // Nombre de messages par page
   Math = Math; // Expose l'objet Math pour le template
+  selectedMessage: any = null;
 
   constructor(private messageService: MessageService) {}
 
@@ -36,6 +38,14 @@ export class ForYouPageComponent implements OnInit {
     if (contentElement) {
       contentElement.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  }
+
+  openDetailedPoste(message: any): void {
+    this.selectedMessage = message; // Stocke le message sélectionné
+  }
+
+  closeDetailedPoste(): void {
+    this.selectedMessage = null; // Réinitialise le message sélectionné
   }
 
   // Méthode pour récupérer les messages de la page actuelle

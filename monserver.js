@@ -8,6 +8,7 @@ const cors = require('./middlewares/cors');
 const { connectDB } = require('./config/db');
 const authRoutes = require('./controller/Authentification');
 const messageRoutes = require('./controller/Messages');
+const userMessagesRouter = require('./controller/UserMessages');
 require('dotenv').config();
 
 // Initialisation d'Express
@@ -47,6 +48,7 @@ app.use(cors);
 // Routes
 app.use(authRoutes);
 app.use(messageRoutes);
+app.use(userMessagesRouter);
 
 // Catch-all route
 app.get('*', (req, res) => {

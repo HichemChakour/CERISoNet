@@ -1,1 +1,81 @@
-<p>home works!</p>
+<div class="w-9/10 h-9/10 m-10 rounded-full flex md:flex-row flex-col justify-between" style="box-shadow: inset 4px 4px 5px 0px rgba(165, 30, 202, 0.973);">
+    <div class="flex md:flex-row flex-col items-center gap-4 p-7">
+        <img class="w-48 h-48 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" [src]="cookies.avatar" alt="Bordered avatar">
+        <div class="gap-2">
+            <div>
+                <div class="font-bold text-white text-4xl">{{cookies.name}}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400 text-xl">{{cookies.lastLoginDate}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="m-20 flex flex-col items-center gap-4 text-purple-700 font-bold text-4xl">
+        <p><i class="fa-solid fa-heart"></i> {{ totalLikes }}</p>
+        <p><i class="fa-solid fa-comment"></i> {{ totalComments }}</p>
+        <p><i class="fa-solid fa-message"></i> {{ totalMessages }}</p>
+    </div>
+</div>
+
+
+
+<div class="m-10">
+    <div class="flex flex-col items-center m-6">
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-6">Vos messages</h1>
+        <hr class="w-3/4 border-t-2"> 
+        <div *ngIf="paginatedMessages.length > 0; else noMessages">
+          <app-poste 
+              *ngFor="let message of paginatedMessages" 
+              [message]="message"
+              (openDetailedPoste)="openDetailedPoste($event)"
+          ></app-poste>
+            <!-- Paginator -->
+            <div class="flex flex-col items-center m-6">
+            <span class="text-sm text-gray-700 dark:text-gray-400">
+                <span class="font-semibold text-gray-900 dark:text-white">
+                {{ (currentPage - 1) * pageSize + 1 }}
+                </span> 
+                à 
+                <span class="font-semibold text-gray-900 dark:text-white">
+                {{ Math.min(currentPage * pageSize, userMessages.length) }}
+                </span> 
+                sur les
+                <span class="font-semibold text-gray-900 dark:text-white">
+                {{ userMessages.length }}
+                </span> 
+                messages
+            </span>
+        
+            <div class="flex m-1">
+                <!-- Previous Button -->
+                <button 
+                (click)="changePage(currentPage - 1)" 
+                [disabled]="currentPage === 1"
+                class="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+                </svg>
+                Précédent
+                </button>
+        
+                <!-- Next Button -->
+                <button 
+                (click)="changePage(currentPage + 1)" 
+                [disabled]="currentPage * pageSize >= userMessages.length"
+                class="flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Suivant
+                <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+                </button>
+            </div>
+            </div>
+        </div>
+      
+        <ng-template #noMessages>
+          <p>Aucun message à afficher.</p>
+        </ng-template>
+    
+        <div *ngIf="selectedMessage" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <app-detailed-poste [message]="selectedMessage" (close)="closeDetailedPoste()"></app-detailed-poste>
+        </div>
+      </div>
+</div>

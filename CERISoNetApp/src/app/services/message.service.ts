@@ -32,4 +32,26 @@ export class MessageService {
       })
     );
   }
+
+  addComment(messageId: number, text: string): Observable<any> {
+    const commentedBy = document.cookie.split('; ').find(row => row.startsWith('userId='))?.split('=')[1];
+    const url = `${this.apiUrl}/comment`; // URL de l'API pour ajouter un commentaire
+    const body = { messageId, text, commentedBy }; // Corps de la requête
+  
+    return this.http.post<any>(url, body).pipe(
+      catchError((error) => {
+        console.error('Erreur lors de l\'ajout du commentaire :', error);
+        return throwError(() => new Error('Impossible d\'ajouter le commentaire.'));
+      })
+    );
+  }
+
+    createMessage(messageData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/create`, messageData).pipe(
+      catchError((error) => {
+        console.error('Erreur lors de la création du message :', error);
+        return throwError(() => new Error('Impossible de créer le message.'));
+      })
+    );
+  }
 }

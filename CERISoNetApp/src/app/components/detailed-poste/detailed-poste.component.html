@@ -1,1 +1,43 @@
-<p>detailed-poste works!</p>
+<div class="bg-gradient-to-br from-violet-950 to-violet-600 rounded-lg shadow-lg max-w-[1200px] p-4 relative" style="box-shadow: inset 2px 3px 10px 0px rgba(74, 0, 143, 0.973);">
+  <button class="absolute top-2 font-bold right-2 text-red-700 bg-black p-2 rounded-full hover:bg-red-600 hover:text-black" (click)="closeModal()" style="box-shadow: inset 1px 1px 5px 0px rgba(248, 71, 71, 0.973);">fermer</button>
+  <div class="flex flex-col md:flex-row  overflow-y-auto">
+    <!-- Section gauche -->
+    <div class="w-full md:w-1/2 p-4">
+      <div class="bg-gray-950 rounded-2xl p-3 max-w-5xl">
+        <div class="flex flex-row items-center rounded-full max-w-48" style="background-color: #35004e; box-shadow: inset 4px 4px 5px 0px rgba(165, 30, 202, 0.973);">
+          <div class="relative">
+            <img class="w-10 h-10 p-1 rounded-full ring-2 bg-black ring-gray-300 dark:ring-gray-500 m-3" [src]="message.createdByUser?.avatar" alt="Bordered avatar">
+            <span *ngIf="message.createdByUser?.statut_connexion" class="bottom-3 left-10 absolute w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+          </div>
+          <h3 class="text-white">{{ message.createdByUser?.pseudo }}</h3>
+        </div>
+        <p class="text-white mt-3">{{ message.body }}</p>
+        <img *ngIf="message.images?.url" class="max-w-[200px] md:max-w-[300px] mt-2 rounded-xl" [src]="message.images?.url" alt="Image">
+      </div>
+    </div>
+    <!-- Section droite -->
+    <div class="w-full md:w-1/2 p-4 flex flex-col">
+      <h4 class="text-lg font-bold mb-4"><i class="fa-solid fa-comment"></i> Commentaires</h4>
+      <div class="flex-1 overflow-y-auto md:max-h-[400px] max-h-[200px]"> 
+        <div *ngFor="let comment of message.comments" class="mb-4 p-2 bg-gray-800 rounded-lg">
+          <!-- Affichage du commentaire -->
+          <div class="flex items-center mb-2">
+            <div class="relative">
+              <img class="w-10 h-10 p-1 rounded-full ring-2 bg-black ring-gray-300 dark:ring-gray-500 m-3" [src]="comment.commentedByUser?.avatar" alt="Bordered avatar">
+              <span *ngIf="comment.commentedByUser?.statut_connexion" class="bottom-3 left-10 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+            </div>
+            <div>
+              <p class="text-sm font-bold text-white">{{ comment.commentedByUser?.pseudo }}</p>
+              <p class="text-xs text-gray-500">{{ comment.date }} à {{ comment.hour }}</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-300">{{ comment.text }}</p>
+        </div>
+      </div>
+      <div class=" flex flex-row mt-3">
+        <textarea [(ngModel)]="newComment" rows="3" class="w-full  rounded-l-xl p-2  max-h-20 text-violet-500 bg-black" placeholder="Écrire un commentaire..."></textarea>
+        <button (click)="addComment()" class="bg-purple-800 text-white w-10 py-2 rounded-r-xl  hover:bg-violet-900" style="box-shadow: inset 2px 3px 10px 0px rgba(22, 22, 22, 0.973);"><i class="fa-solid fa-reply"></i></button>
+      </div>
+    </div>
+  </div>
+</div>

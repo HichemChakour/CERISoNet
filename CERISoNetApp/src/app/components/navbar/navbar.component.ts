@@ -34,7 +34,19 @@ export class NavbarComponent {
     );
   }
 
+  navigateToProfile() {
+    this.router.navigate(['/profil']);
+  }
+
   navigateToFyp() {
     this.router.navigate(['/fyp']);
+  }
+
+  navigateToPoste() {
+    this.router.navigate(['/poste']);
+  }
+
+  navigateMyPostes() {
+    this.router.navigate(['/my-postes']);
   }
 }
